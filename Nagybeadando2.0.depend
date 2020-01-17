@@ -1,0 +1,46 @@
+# depslib dependency file v1.0
+1579221669 source:c:\users\kingtom22\documents\prog2\nagybeadando2.0\src\wagon.cpp
+	"Wagon.h"
+	<iostream>
+
+1579225106 c:\users\kingtom22\documents\prog2\nagybeadando2.0\include\wagon.h
+	<map>
+
+1579225257 source:c:\users\kingtom22\documents\prog2\nagybeadando2.0\main.cpp
+	<iostream>
+	<set>
+	<vector>
+	<algorithm>
+	"Train.h"
+	"Database.h"
+
+1579208741 source:c:\users\kingtom22\documents\prog2\nagybeadando2.0\src\train.cpp
+	<algorithm>
+	"Train.h"
+
+1579208912 c:\users\kingtom22\documents\prog2\nagybeadando2.0\include\train.h
+	<vector>
+	<string>
+
+1579224618 source:c:\users\kingtom22\documents\prog2\nagybeadando2.0\src\database.cpp
+	"Database.h"
+	<iostream>
+	<fstream>
+	<algorithm>
+
+1579224590 c:\users\kingtom22\documents\prog2\nagybeadando2.0\include\database.h
+	<vector>
+	<map>
+	"Order.h"
+	"Wagon.h"
+
+1579189671 c:\users\kingtom22\documents\prog2\nagybeadando2.0\include\order.h
+	"Train.h"
+	<map>
+
+1579207455 source:c:\users\kingtom22\documents\prog2\nagybeadando2.0\src\order.cpp
+	"Order.h"
+	<algorithm>
+	<iterator>
+	<iostream>
+
