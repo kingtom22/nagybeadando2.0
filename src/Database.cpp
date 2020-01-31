@@ -23,6 +23,8 @@ bool Database::init(std::vector<std::string> trains, std::vector<Order> orders)
         int time;
         while(f >> station >> time)
         {
+            if(time==1)
+                scedule.push_back(pair<string,int>(station,0));
             scedule.push_back(pair<string,int>(station,time));
         }
         _scedules[name]=scedule;
@@ -50,16 +52,23 @@ bool Database::hasOrdersArrived(map<string,map<string,int>> stations)
 
 string Database::whereIsThisTrain(std::string name, int time)
 {
-    while(time-_periods[name]>0)
+    vector<pair<string,int>> scedule=_scedules[name];
+    int t=time;
+    int period=_periods[name];
+    while(t-period>=0)
     {
-        vector<pair<string,int>> scedule=_scedules[name];
-        auto it=find_if(scedule.begin(),scedule.end(),[time](const pair<string,int>& p)
+//        auto it=find_if(scedule.begin(),scedule.end(),[time](const pair<string,int>& p)
+//        {
+//            return p.second==time;
+//        });
+//        if(it!=scedule.end())
+//            return it->first;
+        for(auto p:scedule)
         {
-            return p.second==time;
-        });
-        if(it!=scedule.end())
-            return it->first;
-        time-=_periods[name];
+            if(p.second==t)
+                return p.first;
+        }
+        t=t-period;
     }
     return "";
 }
@@ -71,6 +80,7 @@ std::vector<std::string> Database::getStationTrains(std::string station_name, in
     {
         if(whereIsThisTrain(train.first,time)==station_name)
             res.push_back(train.first);
+        //cout<<whereIsThisTrain(train.first,time)<< " " << station_name<< " " << time<<endl;
     }
     return res;
 }
