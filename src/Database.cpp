@@ -5,28 +5,6 @@
 
 using namespace std;
 
-//lkkt seged
-int fv(int a, int b)
-{
-    if(a==0)
-        return b;
-    return fv(b%a, a);
-}
-//lkkt
-int lkkt(set<int>& s)
-{
-    int a, b;
-    while(s.size()>1)
-    {
-        a=*s.begin();
-        s.erase(s.begin());
-        b=*s.begin();
-        s.erase(s.begin());
-        s.insert(a*b/fv(a,b));
-    }
-    return *s.begin();
-}
-
 bool Database::init(std::vector<std::string> trains, std::vector<Order> orders)
 {
     if(trains.empty())

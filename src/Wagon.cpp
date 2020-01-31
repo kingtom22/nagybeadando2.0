@@ -15,11 +15,12 @@ void Wagon::pakol(std::string product,int quantity)
 {
     if(_products.find(product)!=_products.end())
         _products[product]+=quantity;
-    _products[product]=quantity;
+    else _products[product]=quantity;
 }
 
 void Wagon::lepakol(std::string product,int quantity)
 {
+
     auto it=_products.find(product);
     if(it!=_products.end())
     {
@@ -46,6 +47,8 @@ void Wagon::lecsatol(std::string place)
 {
     _place=place;
     _train="";
+    for(auto a:_products)
+        cout<<a.first<<" "<<a.second<<endl;
 }
 
 int Wagon::load()

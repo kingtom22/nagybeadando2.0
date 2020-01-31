@@ -44,7 +44,7 @@
 	<iterator>
 	<iostream>
 
-1580431041 source:c:\users\kingtom22\documents\github\nagybeadando2.0\main.cpp
+1580438983 source:c:\users\kingtom22\documents\github\nagybeadando2.0\main.cpp
 	<iostream>
 	<set>
 	<vector>
@@ -69,7 +69,7 @@
 1580411023 c:\users\kingtom22\documents\github\nagybeadando2.0\include\wagon.h
 	<map>
 
-1580431041 source:c:\users\kingtom22\documents\github\nagybeadando2.0\src\database.cpp
+1580438983 source:c:\users\kingtom22\documents\github\nagybeadando2.0\src\database.cpp
 	"Database.h"
 	<iostream>
 	<fstream>
@@ -85,7 +85,7 @@
 	<algorithm>
 	"Train.h"
 
-1580411553 source:c:\users\kingtom22\documents\github\nagybeadando2.0\src\wagon.cpp
+1580436181 source:c:\users\kingtom22\documents\github\nagybeadando2.0\src\wagon.cpp
 	"Wagon.h"
 	<iostream>
 

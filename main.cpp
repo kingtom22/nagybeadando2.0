@@ -9,7 +9,8 @@
 
 using namespace std;
 
-struct A {
+struct A
+{
     map<string,map<string,int>> stations;//melyik állomáson mibõl mennyi van
     vector<Wagon> wagons;
     vector<A> history;
@@ -29,12 +30,12 @@ struct A {
                 cout<< p.first <<" "<<p.second<<endl;
         }*/
     }
-    vector<A> gyerekek(Database DB)
+    vector<A> gyerekek(Database& DB)
     {
         vector<A> res;
         if(history.empty()) // t=0
         {
-            for(size_t i=0;i<wagons.size();i++)
+            for(size_t i=0; i<wagons.size(); i++)
             {
                 map<string,int> products=stations[wagons[i].getPlace()];
                 for(pair<string,int> p:products)
@@ -43,7 +44,7 @@ struct A {
                     uj.history.push_back(uj);
                     map<string,int> new_products=uj.stations[wagons[i].getPlace()];
                     int q=new_products[p.first];
-                    if(q<=wagons[i].getSize()-wagons[i].load())
+                    if(q<=wagons[i].getSize())
                     {
                         uj.wagons[i].pakol(p.first,q);
                         new_products.erase(p.first);
@@ -62,8 +63,14 @@ struct A {
         }
         else // t!=0
         {
-            for(size_t i=0;i<wagons.size();i++) // pakolás
+            A semmi(*this);
+            semmi.history.push_back(semmi);
+            res.push_back(semmi);
+            A uj(*this);
+            uj.history.push_back(uj);
+            for(size_t i=0; i<wagons.size(); i++)
             {
+                // pakolás
                 if(!wagons[i].isOnTrain())
                 {
                     map<string,int> products=stations[wagons[i].getPlace()];
@@ -82,16 +89,15 @@ struct A {
                         }
                         else
                         {
+                            uj.wagons[i].pakol(p.first,wagons[i].getSize()-wagons[i].load());
                             new_products[p.first]-=wagons[i].getSize()-wagons[i].load();
                             uj.stations[wagons[i].getPlace()]=new_products;
                             res.push_back(uj);
                         }
                     }
                 }
-            }
 
-            for(size_t i=0;i<wagons.size();i++) // lepakolás
-            {
+                // lepakolás
                 if(!wagons[i].isOnTrain())
                 {
                     vector<Order> orders=DB.GetOrders();
@@ -102,40 +108,36 @@ struct A {
                     });
                     if(it!=orders.end())
                     {
-                        A uj(*this);
-                        uj.history.push_back(uj);
+//                        A uj(*this);
+//                        uj.history.push_back(uj);
                         map<string,int> station_products=stations[place];
                         map<string,int> wagon_products=wagons[i].getProducts();
                         uj.wagons[i].lepakol(it->_name,wagon_products[it->_name]);
                         res.push_back(uj);
                     }
                 }
-            }
 
-            for(size_t i=0;i<wagons.size();i++) // csatolás
-            {
+                // csatolás
                 if(!wagons[i].isOnTrain())
                 {
-                    vector<string> station_trains=DB.getStationTrains(wagons[i].getPlace(),history.size()+1);
+                    vector<string> station_trains=DB.getStationTrains(wagons[i].getPlace(),history.size());
                     for(string train:station_trains)
                     {
-                        A uj(*this);
-                        uj.history.push_back(uj);
+//                        A uj(*this);
+//                        uj.history.push_back(uj);
                         uj.wagons[i].csatol(train);
                         res.push_back(uj);
                     }
                 }
-            }
 
-            for(size_t i=0;i<wagons.size();i++) // lecsatolás
-            {
+                // lecsatolás
                 if(wagons[i].isOnTrain())
                 {
-                    string place=DB.whereIsThisTrain(wagons[i].getTrain(),history.size()+1);
+                    string place=DB.whereIsThisTrain(wagons[i].getTrain(),history.size());
                     if(!place.empty())
                     {
-                        A uj(*this);
-                        uj.history.push_back(uj);
+//                        A uj(*this);
+//                        uj.history.push_back(uj);
                         uj.wagons[i].lecsatol(place);
                         res.push_back(uj);
                     }
@@ -145,7 +147,8 @@ struct A {
         return res;
     }
 };
-float value(const A& a,Database DB) {
+float value(const A& a,Database DB)
+{
     map<string,map<string,int>> destination_stations=DB.GetDestinationState();
     map<string,map<string,int>> actual_stations=a.stations;
     int res=10;
@@ -160,10 +163,11 @@ float value(const A& a,Database DB) {
     return (res/1000); //TODO
 }
 
-bool operator<(const A& a, const A& b) {
+bool operator<(const A& a, const A& b)
+{
     if(a.stations!=b.stations)
         return a.stations<b.stations;
-    for(size_t i=0;i<a.wagons.size();i++)
+    for(size_t i=0; i<a.wagons.size(); i++)
     {
         if(a.wagons[i]!=b.wagons[i])
             return a.wagons[i]<b.wagons[i];
@@ -171,36 +175,39 @@ bool operator<(const A& a, const A& b) {
     return a.history.size()<b.history.size();
 }
 
-bool vegeredmeny(const A& a,Database DB) {
+bool vegeredmeny(const A& a,Database DB)
+{
     return DB.hasOrdersArrived(a.stations);
 }
-ostream & operator<<(ostream &out, const A& a) {
-    for(size_t t=0;t<a.history.size();t++)
+ostream & operator<<(ostream &out, const A& a)
+{
+    for(size_t t=0; t<a.history.size(); t++)
     {
-        cout << t << " idõpontban"<<endl;
-        for(auto station:a.history[t].stations)
+        cout << t << " idõpontban "<<endl;
+        for(auto& station:a.history[t].stations)
         {
-            cout<<station.first<<endl;
-            for(Wagon w:a.history[t].wagons)
-            {
-                if(w.getPlace()==station.first)
-                {
-                    cout << w.getName() << endl;
-                    for(auto product:w.getProducts())
-                        cout << "\t" << product.first << "\t" << product.second <<endl;
-                }
-            }
+            cout<< "--------" << station.first << "--------"<< endl;
+
             cout<< "lepakolva:" << endl;
             for(auto product:station.second)
                 cout << "\t" << product.first << "\t" << product.second <<endl;
         }
+        for(Wagon w:a.history[t].wagons)
+        {
+            cout << w.getName() << endl;
+            if(w.isOnTrain())
+                cout<< ": vonaton: " << w.getTrain() <<endl;
+            for(auto product:w.getProducts())
+                cout << "\t" << product.first << "\t" << product.second <<endl;
+        }
     }
-    cout<<"----------------------------"<<endl;
+    cout<<"*****************************"<<endl;
 
     return out;
 }
 template<typename T>
-class NodeSet {
+class NodeSet
+{
     set<T> t;
     Database DB;
 public:
@@ -208,10 +215,13 @@ public:
     {
         DB=db;
     }
-    T pop_max() {
+    T pop_max()
+    {
         auto it_max = t.begin();
-        for (auto it=t.begin();it!=t.end();it++) {
-            if (value(*it,DB) > value(*it_max,DB)) {
+        for (auto it=t.begin(); it!=t.end(); it++)
+        {
+            if (value(*it,DB) > value(*it_max,DB))
+            {
                 it_max = it;
             }
         }
@@ -219,14 +229,18 @@ public:
         t.erase(it_max);
         return res;
     }
-    void put(T a) {
+    void put(T a)
+    {
         t.insert(a);
     }
-    int size() const {
+    int size() const
+    {
         return t.size();
     }
-    void dump(ostream &out = cout) {
-        for (auto it=t.begin();it!=t.end();it++) {
+    void dump(ostream &out = cout)
+    {
+        for (auto it=t.begin(); it!=t.end(); it++)
+        {
             out << *it;
         }
     }
@@ -242,6 +256,8 @@ int main()
     vector<Wagon> wagons;
     wagons.push_back(Wagon("a","A",10));
     wagons.push_back(Wagon("b","B",15));
+    wagons.push_back(Wagon("c","A",10));
+    wagons.push_back(Wagon("d","B",15));
 
     vector<string> vonatok;
     vonatok.push_back("vonat1schedule.txt");
@@ -258,24 +274,31 @@ int main()
     bool megtalaltuk = false;
     int lepesszam=0;
     A legjobb = kezdet; // csak hogy legyen kezdeti ertek
-    while(!megtalaltuk && ns.size() ) {
+    while(!megtalaltuk && ns.size() )
+    {
         lepesszam++;
         A aktualis = ns.pop_max();
-        if (vegeredmeny(aktualis,DB)) {
+        if (vegeredmeny(aktualis,DB))
+        {
             legjobb=aktualis;
             megtalaltuk=true;
         }
         vector<A> gyerekek = aktualis.gyerekek(DB);
         cout<<gyerekek.size()<<endl;
-        for (A jelolt: gyerekek) {
+        for (A jelolt: gyerekek)
+        {
             // if(..) //esetleg
             ns.put(jelolt);
+            cout<<jelolt;
         }
     }
-    if (megtalaltuk) {
+    if (megtalaltuk)
+    {
         cout <<endl << endl << legjobb << " a vegeredmeny" << endl;
         cout << "(" << lepesszam << " lepes, eredmény history: " << legjobb.history.size() << ")" << endl;
-    } else {
+    }
+    else
+    {
         cout << "nincs megoldás" << endl;
     }
     return 0;
