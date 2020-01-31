@@ -40,12 +40,10 @@
 		</ResourceCompiler>
 		<Unit filename="include/Database.h" />
 		<Unit filename="include/Order.h" />
-		<Unit filename="include/Train.h" />
 		<Unit filename="include/Wagon.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/Database.cpp" />
 		<Unit filename="src/Order.cpp" />
-		<Unit filename="src/Train.cpp" />
 		<Unit filename="src/Wagon.cpp" />
 		<Extensions>
 			<code_completion />

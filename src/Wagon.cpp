@@ -8,6 +8,7 @@ Wagon::Wagon(std::string name, std::string place, int size)
     _name=name;
     _place=place;
     _size=size;
+    _train="";
 }
 
 void Wagon::pakol(std::string product,int quantity)
@@ -36,10 +37,46 @@ void Wagon::lepakol(std::string product,int quantity)
         cout << "Hiba " << product << "lepakolása közben, " << _name << " vagonról, nincs rajta a vagonon!"<<endl;
 }
 
+void Wagon::csatol(std::string train)
+{
+    _train=train;
+}
+
+void Wagon::lecsatol(std::string place)
+{
+    _place=place;
+    _train="";
+}
+
 int Wagon::load()
 {
     int res=0;
     for(auto a:_products)
         res+=a.second;
     return res;
+}
+
+bool Wagon::isOnTrain()
+{
+    if(_train.empty())
+        return false;
+    else return true;
+}
+
+bool Wagon::operator<(const Wagon w) const
+{
+    if(_name!=w._name);
+        return _name<w._name;
+    if(_products!=w._products)
+        return _products<w._products;
+    return _train<w._train;
+}
+
+bool Wagon::operator!=(const Wagon w) const
+{
+    if(_name!=w._name);
+        return true;
+    if(_products!=w._products)
+        return true;
+    return _train!=w._train;
 }

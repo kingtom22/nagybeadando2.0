@@ -11,8 +11,17 @@ Order::Order(std::string name,std::string source, std::string destination, int q
     //ctor
 }
 
-bool Order::hasArrived(map<string,map<string,int>>& stations)
+bool Order::hasArrived(map<string,map<string,int>> stations)
 {
+    map<string,int> station=stations[_destination];
+    auto it=station.find(_name);
+    if(it->second==_quantity)
+    {
+        cout<<"valami megérkezett"<<endl;
+        return true;
+    }
+    return false;
+    /*
     for(auto& station: stations)
     {
         auto it=station.second.find(_name);
@@ -23,4 +32,5 @@ bool Order::hasArrived(map<string,map<string,int>>& stations)
         }
     }
     return false;
+    */
 }

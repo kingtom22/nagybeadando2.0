@@ -7,21 +7,30 @@ class Wagon
 {
     public:
         Wagon(std::string name, std::string place, int size);
-        void mozgat(std::string place) { _place=place; }
         void pakol(std::string product,int quantity);
         void lepakol(std::string product,int quantity);
-        bool isFull();
+
+        void csatol(std::string train);
+        void lecsatol(std::string place);
+
+        bool isOnTrain();
         int load();
+
         std::map<std::string,int> getProducts() { return _products; }
         std::string getName() { return _name; }
         std::string getPlace() { return _place; }
+        std::string getTrain() { return _train; }
         int getSize() { return _size; }
 
-        std::string _place;
+        bool operator<(const Wagon w) const;
+        bool operator!=(const Wagon w) const;
+
     private:
         int _size;
         std::map<std::string,int> _products;
         std::string _name;
+        std::string _place;
+        std::string _train;
 
 };
 

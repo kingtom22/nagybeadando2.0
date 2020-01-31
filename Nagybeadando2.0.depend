@@ -44,3 +44,48 @@
 	<iterator>
 	<iostream>
 
+1580431041 source:c:\users\kingtom22\documents\github\nagybeadando2.0\main.cpp
+	<iostream>
+	<set>
+	<vector>
+	<algorithm>
+	<iterator>
+	"Database.h"
+	"Wagon.h"
+
+1579880232 c:\users\kingtom22\documents\github\nagybeadando2.0\include\train.h
+	<vector>
+	<string>
+
+1580430469 c:\users\kingtom22\documents\github\nagybeadando2.0\include\database.h
+	<vector>
+	<map>
+	<set>
+	"Order.h"
+
+1580413670 c:\users\kingtom22\documents\github\nagybeadando2.0\include\order.h
+	<map>
+
+1580411023 c:\users\kingtom22\documents\github\nagybeadando2.0\include\wagon.h
+	<map>
+
+1580431041 source:c:\users\kingtom22\documents\github\nagybeadando2.0\src\database.cpp
+	"Database.h"
+	<iostream>
+	<fstream>
+	<algorithm>
+
+1580426596 source:c:\users\kingtom22\documents\github\nagybeadando2.0\src\order.cpp
+	"Order.h"
+	<algorithm>
+	<iterator>
+	<iostream>
+
+1579880232 source:c:\users\kingtom22\documents\github\nagybeadando2.0\src\train.cpp
+	<algorithm>
+	"Train.h"
+
+1580411553 source:c:\users\kingtom22\documents\github\nagybeadando2.0\src\wagon.cpp
+	"Wagon.h"
+	<iostream>
+
